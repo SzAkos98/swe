@@ -2,6 +2,7 @@ package game;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -140,9 +141,106 @@ public class Main extends Application {
 
     }
 
+    public static final int TILE_SIZE = 72;
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
+
+    private Group tileGroup = new Group();
+    private Group pieceGroup = new Group();
+
+    private Tile[][] bd = new Tile[WIDTH][HEIGHT];
+
     protected void game(Pane gm) {
-        StackPane gmPane = new StackPane();
-        gm.getChildren().addAll(gmPane);
+        Rectangle bg = new Rectangle(1280, 720);
+        bg.setStroke(Color.DARKCYAN);
+        bg.setFill(Color.ANTIQUEWHITE);
+
+        Pane board = new Pane();
+        board.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
+        board.getChildren().addAll(tileGroup, pieceGroup);
+
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                Tile tile = new Tile((x + y) % 2 == 0, x, y);
+                bd[x][y] = tile;
+
+                tileGroup.getChildren().add(tile);
+
+                Piece piece = null;
+
+                if (y == 0 || y == 9) {
+                    if (y == 0 && x == 0) {
+                        int xx = (int) (Math.random() * 9 + 0);
+                        piece = makePiece(PieceType.RED, xx, y);
+                        xx = 0;
+                    }
+
+                    if (piece == null) {
+                        if (y == 9 && x == 0) {
+                            int xx = (int) (Math.random() * 9 + 0);
+                            piece = makePiece(PieceType.BLUE, xx, y);
+                            xx = 0;
+                        }
+                    }
+
+                    if (piece != null) {
+                        tile.setPiece(piece);
+                        pieceGroup.getChildren().add(piece);
+                    }
+                }
+            }
+        }
+
+        // StackPane gmPane = new StackPane();
+
+        gm.getChildren().addAll(board);
         scene3 = new Scene(gm, 1280, 720);
+    }
+
+    private MoveResult tryMove(Piece piece, int newx, int newy) {
+        if (bd[newx][newy].hasPiece()) {
+            return new MoveResult(MoveType.NONE);
+        }
+
+        int x0 = toBoard(piece.getOldx());
+        int y0 = toBoard(piece.getOldy());
+
+        if (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2 ||
+                Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) {
+            return new MoveResult(MoveType.NORMAL);
+        }
+
+        return new MoveResult(MoveType.NONE);
+    }
+
+    private int toBoard(double pixel) {
+        return (int) (pixel + TILE_SIZE / 2) / TILE_SIZE;
+    }
+
+    private Piece makePiece(PieceType type, int x, int y) {
+        Piece piece = new Piece(type, x, y);
+
+        piece.setOnMouseReleased(e -> {
+            int newx = toBoard(piece.getLayoutX());
+            int newy = toBoard(piece.getLayoutY());
+
+            MoveResult result = tryMove(piece, newx, newy);
+
+            int x0 = toBoard(piece.getOldx());
+            int y0 = toBoard(piece.getOldy());
+
+            switch (result.getType()) {
+                case NONE:
+                    piece.abortMove();
+                    break;
+                case NORMAL:
+                    piece.move(newx, newy);
+                    bd[x0][y0].setPiece(null);
+                    bd[newx][newy].setPiece(piece);
+                    break;
+            }
+        });
+
+        return piece;
     }
 }
