@@ -197,22 +197,23 @@ public class Main extends Application {
     }
 
     private MoveResult tryMove(Piece piece, int newx, int newy) {
-        if (bd[newx][newy].hasPiece()) {
-            return new MoveResult(MoveType.NONE);
-        }
+        if (piece.getType() == PieceType.BLUE || piece.getType() == PieceType.RED) {
 
-        int x0 = toBoard(piece.getOldx());
-        int y0 = toBoard(piece.getOldy());
-        Piece ghost;
+            int x0 = toBoard(piece.getOldx());
+            int y0 = toBoard(piece.getOldy());
 
-        if (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2 ||
-                Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) {
-            SetColor tile = new SetColor(piece.getType() == PieceType.RED, x0, y0);
-            ghost = makePiece(PieceType.GHOST, x0, y0);
-            pieceGroup.getChildren().add(ghost);
-            newColorBoard[x0][y0] = tile;
-            tileGroup.getChildren().add(tile);
-            return new MoveResult(MoveType.NORMAL);
+            if (bd[newx][newy].hasPiece()) {
+
+                return new MoveResult(MoveType.NONE);
+
+            } else if (!bd[newx][newy].hasPiece() && Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2 ||
+                    !bd[newx][newy].hasPiece() && Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) {
+
+                SetColor setcolor = new SetColor(piece.getType() == PieceType.RED, x0, y0);
+                newColorBoard[x0][y0] = setcolor;
+                tileGroup.getChildren().add(setcolor);
+                return new MoveResult(MoveType.NORMAL);
+            }
         }
 
         return new MoveResult(MoveType.NONE);
@@ -226,9 +227,11 @@ public class Main extends Application {
         Piece piece = new Piece(type, x, y);
 
         if (piece.getType() != PieceType.GHOST) {
+
             piece.setOnMouseReleased(e -> {
                 int newx = toBoard(piece.getLayoutX());
                 int newy = toBoard(piece.getLayoutY());
+
 
                 MoveResult result = tryMove(piece, newx, newy);
 
@@ -240,11 +243,18 @@ public class Main extends Application {
                         piece.abortMove();
                         break;
                     case NORMAL:
-                        piece.move(newx, newy);
-                        bd[x0][y0].setPiece(null);
-                        bd[newx][newy].setPiece(piece);
-                        break;
-
+                        if (!bd[newx][newy].hasPiece()) {
+                            Piece ghost;
+                            piece.move(newx, newy);
+                            Tile tile = new Tile((x0 + y0) % 2 == 0, x0, y0);
+                            ghost = makePiece(PieceType.GHOST, x0, y0);
+                            tile.setPiece(ghost);
+                            pieceGroup.getChildren().add(ghost);
+                            bd[x0][y0].setPiece(null);
+                            bd[x0][y0] = tile;
+                            bd[newx][newy].setPiece(piece);
+                            break;
+                        }
                 }
             });
         }
