@@ -203,10 +203,13 @@ public class Main extends Application {
 
         int x0 = toBoard(piece.getOldx());
         int y0 = toBoard(piece.getOldy());
+        Piece ghost;
 
         if (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2 ||
                 Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) {
             SetColor tile = new SetColor(piece.getType() == PieceType.RED, x0, y0);
+            ghost = makePiece(PieceType.GHOST, x0, y0);
+            pieceGroup.getChildren().add(ghost);
             newColorBoard[x0][y0] = tile;
             tileGroup.getChildren().add(tile);
             return new MoveResult(MoveType.NORMAL);
@@ -222,27 +225,29 @@ public class Main extends Application {
     private Piece makePiece(PieceType type, int x, int y) {
         Piece piece = new Piece(type, x, y);
 
-        piece.setOnMouseReleased(e -> {
-            int newx = toBoard(piece.getLayoutX());
-            int newy = toBoard(piece.getLayoutY());
+        if (piece.getType() != PieceType.GHOST) {
+            piece.setOnMouseReleased(e -> {
+                int newx = toBoard(piece.getLayoutX());
+                int newy = toBoard(piece.getLayoutY());
 
-            MoveResult result = tryMove(piece, newx, newy);
+                MoveResult result = tryMove(piece, newx, newy);
 
-            int x0 = toBoard(piece.getOldx());
-            int y0 = toBoard(piece.getOldy());
+                int x0 = toBoard(piece.getOldx());
+                int y0 = toBoard(piece.getOldy());
 
-            switch (result.getType()) {
-                case NONE:
-                    piece.abortMove();
-                    break;
-                case NORMAL:
-                    piece.move(newx, newy);
-                    bd[x0][y0].setPiece(null);
-                    bd[newx][newy].setPiece(piece);
-                    break;
+                switch (result.getType()) {
+                    case NONE:
+                        piece.abortMove();
+                        break;
+                    case NORMAL:
+                        piece.move(newx, newy);
+                        bd[x0][y0].setPiece(null);
+                        bd[newx][newy].setPiece(piece);
+                        break;
 
-            }
-        });
+                }
+            });
+        }
 
         return piece;
     }
