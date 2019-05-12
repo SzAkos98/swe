@@ -149,6 +149,7 @@ public class Main extends Application {
     private Group pieceGroup = new Group();
 
     private Tile[][] bd = new Tile[WIDTH][HEIGHT];
+    private SetColor[][] newColorBoard = new SetColor[WIDTH][HEIGHT];
 
     protected void game(Pane gm) {
         Rectangle bg = new Rectangle(1280, 720);
@@ -191,8 +192,6 @@ public class Main extends Application {
             }
         }
 
-        // StackPane gmPane = new StackPane();
-
         gm.getChildren().addAll(board);
         scene3 = new Scene(gm, 1280, 720);
     }
@@ -207,6 +206,9 @@ public class Main extends Application {
 
         if (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2 ||
                 Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) {
+            SetColor tile = new SetColor(piece.getType() == PieceType.RED, x0, y0);
+            newColorBoard[x0][y0] = tile;
+            tileGroup.getChildren().add(tile);
             return new MoveResult(MoveType.NORMAL);
         }
 
@@ -238,6 +240,7 @@ public class Main extends Application {
                     bd[x0][y0].setPiece(null);
                     bd[newx][newy].setPiece(piece);
                     break;
+
             }
         });
 
