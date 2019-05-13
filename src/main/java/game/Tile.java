@@ -8,7 +8,6 @@ import static game.Main.TILE_SIZE;
 public class Tile extends Rectangle {
 
     private Piece piece;
-    private PieceType type;
 
     public boolean hasPiece() {
         return piece != null;

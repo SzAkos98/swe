@@ -53,7 +53,10 @@ public class Piece extends StackPane {
             ellipse.setTranslateX((TILE_SIZE - TILE_SIZE * 0.3125 * 2) / 2);
             ellipse.setTranslateY((TILE_SIZE - TILE_SIZE * 0.26 * 2) / 2);
 
-        } else if (type == PieceType.GHOST) {
+        } else if (type == PieceType.GHOSTR) {
+            bg.setFill(Color.TRANSPARENT);
+            ellipse.setFill(Color.TRANSPARENT);
+        } else if (type == PieceType.GHOSTB) {
             bg.setFill(Color.TRANSPARENT);
             ellipse.setFill(Color.TRANSPARENT);
         }

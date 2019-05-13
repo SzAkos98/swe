@@ -19,7 +19,8 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     Stage window;
-    Scene scene1, scene2, scene3;
+    Scene scene1, scene2, scene3, scene4;
+    String whoWin = null;
 
 
     public static void main(String[] args) {
@@ -194,6 +195,67 @@ public class Main extends Application {
 
         gm.getChildren().addAll(board);
         scene3 = new Scene(gm, 1280, 720);
+        StackPane asd = new StackPane();
+        asd.getChildren().add(bg);
+
+        int blueWinRow = 0;
+        int redWinRow = 0;
+        int blueWinColumn = 0;
+        int redWinColumn = 0;
+
+        // do {
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB) {
+                    blueWinRow++;
+                    if (blueWinRow == 5) {
+                        whoWin = "BLUE";
+                        gameEnd(asd);
+                    }
+                }
+
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR) {
+                    redWinRow++;
+                    if (blueWinRow == 5) {
+                        whoWin = "RED";
+                        gameEnd(asd);
+                    }
+                }
+                if (x == 9 && blueWinRow < 5 && redWinRow < 5) {
+                    redWinRow = 0;
+                    blueWinRow = 0;
+                }
+
+            }
+        }
+
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB) {
+                    blueWinColumn++;
+                    if (blueWinColumn == 5) {
+                        whoWin = "BLUE";
+                        gameEnd(asd);
+                    }
+                }
+
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR) {
+                    redWinColumn++;
+                    if (blueWinColumn == 5) {
+                        whoWin = "RED";
+                        gameEnd(asd);
+                    }
+                }
+                if (x == 9 && blueWinColumn < 5 && redWinColumn < 5) {
+                    redWinColumn = 0;
+                    blueWinColumn = 0;
+                }
+
+            }
+        }
+        //} while(whoWin == null);
     }
 
     private MoveResult tryMove(Piece piece, int newx, int newy) {
@@ -226,7 +288,7 @@ public class Main extends Application {
     private Piece makePiece(PieceType type, int x, int y) {
         Piece piece = new Piece(type, x, y);
 
-        if (piece.getType() != PieceType.GHOST) {
+        if (piece.getType() != PieceType.GHOSTR && piece.getType() != PieceType.GHOSTB) {
 
             piece.setOnMouseReleased(e -> {
                 int newx = toBoard(piece.getLayoutX());
@@ -247,7 +309,7 @@ public class Main extends Application {
                             Piece ghost;
                             piece.move(newx, newy);
                             Tile tile = new Tile((x0 + y0) % 2 == 0, x0, y0);
-                            ghost = makePiece(PieceType.GHOST, x0, y0);
+                            ghost = (piece.getType() == PieceType.RED ? makePiece(PieceType.GHOSTR, x0, y0) : makePiece(PieceType.GHOSTB, x0, y0));
                             tile.setPiece(ghost);
                             pieceGroup.getChildren().add(ghost);
                             bd[x0][y0].setPiece(null);
@@ -260,5 +322,61 @@ public class Main extends Application {
         }
 
         return piece;
+    }
+
+    protected void gameEnd(Pane gmEnd) {
+        Rectangle bg = new Rectangle(1280, 720);
+        bg.setStroke(Color.DARKCYAN);
+        bg.setFill(Color.ANTIQUEWHITE);
+        Font font = Font.font(72);
+
+        AnchorPane menu = new AnchorPane();
+        menu.setPrefSize(1280, 100);
+
+        if (whoWin.equals("RED")) {
+            //Congrats Player 1
+            System.out.println("Red won");
+            Label label = new Label("Red Player Won!");
+            label.setFont(font);
+            label.setTextFill(Color.RED);
+            label.setLayoutX(110);
+            label.setLayoutY(10);
+            menu.getChildren().add(label);
+        } else if (whoWin.equals("BLUE")) {
+            //Congrats Player2
+            System.out.println("Blue won");
+            Label label = new Label("Blue Player Won!");
+            label.setFont(font);
+            label.setTextFill(Color.BLUE);
+            label.setLayoutX(110);
+            label.setLayoutY(10);
+            menu.getChildren().add(label);
+        }
+
+        //start button
+        Button btnStart = new Button("New Game");
+        btnStart.setFont(font);
+        btnStart.setOnAction(actionEvent -> window.setScene(scene2));
+
+        //exit button
+        Button btnExit = new Button("Exit");
+        btnExit.setFont(font);
+        btnExit.setOnAction(actionEvent -> System.exit(0));
+
+        //display
+        VBox btns = new VBox(50, btnStart, btnExit);
+        btns.setAlignment(Pos.CENTER);
+
+
+
+        /*
+        A ki nyert részt a pieceGroup hasPeace/getPeace szarjával valahogy,
+         de csak a Ghost okat és valahogy színt is GHOSTR GHOSTB jó lenne try it
+
+         */
+        whoWin = null;
+
+        gmEnd.getChildren().addAll(menu, btns);
+        scene4 = new Scene(gmEnd, 1280, 720);
     }
 }
