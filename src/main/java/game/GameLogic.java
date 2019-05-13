@@ -99,7 +99,17 @@ public class GameLogic {
                 SetColor setcolor = new SetColor(piece.getType() == PieceType.RED, x0, y0);
                 newColorBoard[x0][y0] = setcolor;
                 tileGroup.getChildren().add(setcolor);
-                return new MoveResult(MoveType.NORMAL);
+                if (whoPlays.equals("RED") && piece.getType() == PieceType.RED) {
+                    whoPlays = "BLUE";
+                    return new MoveResult(MoveType.NORMAL);
+                } else if (!whoPlays.equals("RED") && piece.getType() == PieceType.RED) {
+                    return new MoveResult(MoveType.NONE);
+                } else if (whoPlays.equals("BLUE") && piece.getType() == PieceType.BLUE) {
+                    whoPlays = "RED";
+                    return new MoveResult(MoveType.NORMAL);
+                } else if (!whoPlays.equals("BLUE") && piece.getType() == PieceType.BLUE) {
+                    return new MoveResult(MoveType.NONE);
+                }
             }
         }
 
