@@ -1,5 +1,5 @@
 package game;
 
 public enum PieceType {
-    RED, BLUE, GHOSTR, GHOSTB;
+    RED, BLUE, GHOSTR, GHOSTB
 }
