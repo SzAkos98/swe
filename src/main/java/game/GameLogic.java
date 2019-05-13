@@ -25,13 +25,13 @@ public class GameLogic {
     private Tile[][] bd = new Tile[WIDTH][HEIGHT];
     private SetColor[][] newColorBoard = new SetColor[WIDTH][HEIGHT];
 
-    public static Scene scene3, scene4;
-    String whoWin = "NONE";
+    protected static Scene scene3, scene4;
+    private String whoWin = "NONE";
 
-    int blueWinRow = 0;
-    int redWinRow = 0;
-    int blueWinColumn = 0;
-    int redWinColumn = 0;
+    private int blueWinRow = 0;
+    private int redWinRow = 0;
+    private int blueWinColumn = 0;
+    private int redWinColumn = 0;
 
     public void game(Pane gm) {
         Rectangle bg = new Rectangle(1280, 720);
@@ -55,14 +55,12 @@ public class GameLogic {
                     if (y == 0 && x == 0) {
                         int xx = (int) (Math.random() * 9 + 0);
                         piece = makePiece(PieceType.RED, xx, y);
-                        xx = 0;
                     }
 
                     if (piece == null) {
                         if (y == 9 && x == 0) {
                             int xx = (int) (Math.random() * 9 + 0);
                             piece = makePiece(PieceType.BLUE, xx, y);
-                            xx = 0;
                         }
                     }
 
@@ -124,7 +122,7 @@ public class GameLogic {
             for (int x = 0; x < WIDTH; x++) {
                 System.out.println("Fut a sor ciklus");
 
-                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && whoWin == "NONE") {
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && whoWin.equals("NONE")) {
                     ++blueWinRow;
                     if (blueWinRow == 5) {
                         whoWin = "BLUE";
@@ -133,7 +131,7 @@ public class GameLogic {
                     }
                 }
 
-                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR && whoWin == "NONE") {
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR && whoWin.equals("NONE")) {
                     ++redWinRow;
                     if (redWinRow == 5) {
                         whoWin = "RED";
@@ -212,7 +210,7 @@ public class GameLogic {
         return piece;
     }
 
-    public void gameEnd(Pane gmEnd) {
+    private void gameEnd(Pane gmEnd) {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
         bg.setFill(Color.ANTIQUEWHITE);
