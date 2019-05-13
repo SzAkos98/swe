@@ -244,13 +244,23 @@ public class GameLogic {
             nmenu.getChildren().add(label);
         }
 
+        StackPane asd = new StackPane();
+        asd.getChildren().add(bg);
+
+        //start button
+        Button btnNewGame = new Button("New Game");
+        btnNewGame.setFont(font);
+        btnNewGame.setOnAction(actionEvent -> {
+            new GameMain().gameStart(asd);
+            window.setScene(scene2);
+        });
         //exit button
         Button btnExit = new Button("Exit");
         btnExit.setFont(font);
         btnExit.setOnAction(actionEvent -> System.exit(0));
 
         //display
-        VBox nbtns = new VBox(50, btnExit);
+        VBox nbtns = new VBox(50, btnNewGame, btnExit);
         nbtns.setAlignment(Pos.CENTER);
 
         whoWin = "NONE";
