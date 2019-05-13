@@ -15,10 +15,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-public class GameMain extends Application {
+public class Wiev extends Application {
 
     public static Stage window;
-    public static Scene scene1, scene2;
+    public static Scene scene1, scene2, scene4;
     public static final int TILE_SIZE = 72;
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
@@ -142,5 +142,60 @@ public class GameMain extends Application {
         new GameLogic().game(asd);
 
 
+    }
+
+    public void gameEnd(Pane gmEnd) {
+        Rectangle bg = new Rectangle(1280, 720);
+        bg.setStroke(Color.DARKCYAN);
+        bg.setFill(Color.ANTIQUEWHITE);
+        Font font = Font.font(72);
+
+        AnchorPane nmenu = new AnchorPane();
+        nmenu.setPrefSize(1280, 100);
+
+        if (GameLogic.whoWin.equals("RED")) {
+            //Congrats Player 1
+            System.out.println("Red won");
+            Label label = new Label("Red Player Won!");
+            label.setFont(font);
+            label.setTextFill(Color.RED);
+            label.setLayoutX(310);
+            label.setLayoutY(10);
+            nmenu.getChildren().add(label);
+        } else if (GameLogic.whoWin.equals("BLUE")) {
+            //Congrats Player2
+            System.out.println("Blue won");
+            Label label = new Label("Blue Player Won!");
+            label.setFont(font);
+            label.setTextFill(Color.BLUE);
+            label.setLayoutX(310);
+            label.setLayoutY(10);
+            nmenu.getChildren().add(label);
+        }
+
+        StackPane asd = new StackPane();
+        asd.getChildren().add(bg);
+
+        //start button
+        Button btnNewGame = new Button("New Game");
+        btnNewGame.setFont(font);
+        btnNewGame.setOnAction(actionEvent -> {
+            new Wiev().gameStart(asd);
+            window.setScene(scene2);
+        });
+        //exit button
+        Button btnExit = new Button("Exit");
+        btnExit.setFont(font);
+        btnExit.setOnAction(actionEvent -> System.exit(0));
+
+        //display
+        VBox nbtns = new VBox(50, btnNewGame, btnExit);
+        nbtns.setAlignment(Pos.CENTER);
+
+        GameLogic.whoWin = "NONE";
+
+        gmEnd.getChildren().addAll(nmenu, nbtns);
+        scene4 = new Scene(gmEnd, 1280, 720);
+        window.setScene(scene4);
     }
 }

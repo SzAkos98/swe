@@ -1,20 +1,14 @@
 package game;
 
-import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.text.Font;
 
-import static game.GameMain.*;
+import static game.Wiev.*;
 
 
 public class GameLogic {
@@ -25,7 +19,7 @@ public class GameLogic {
     private Tile[][] bd = new Tile[WIDTH][HEIGHT];
     private SetColor[][] newColorBoard = new SetColor[WIDTH][HEIGHT];
 
-    public static Scene scene3, scene4;
+    public static Scene scene3;
     public static String whoWin = "NONE";
     public static String whoPlays = "RED";
 
@@ -133,7 +127,7 @@ public class GameLogic {
                     ++blueWinRow;
                     if (blueWinRow == 5) {
                         whoWin = "BLUE";
-                        gameEnd(asd);
+                        new Wiev().gameEnd(asd);
                         break;
                     }
                 }
@@ -142,7 +136,7 @@ public class GameLogic {
                     ++redWinRow;
                     if (redWinRow == 5) {
                         whoWin = "RED";
-                        gameEnd(asd);
+                        new Wiev().gameEnd(asd);
                         break;
                     }
                 }
@@ -157,7 +151,7 @@ public class GameLogic {
                     ++blueWinColumn;
                     if (blueWinColumn == 5) {
                         whoWin = "BLUE";
-                        gameEnd(asd);
+                        new Wiev().gameEnd(asd);
                         break;
                     }
                 }
@@ -166,7 +160,7 @@ public class GameLogic {
                     ++redWinColumn;
                     if (redWinColumn == 5) {
                         whoWin = "RED";
-                        gameEnd(asd);
+                        new Wiev().gameEnd(asd);
                         break;
                     }
                 }
@@ -215,58 +209,5 @@ public class GameLogic {
         return piece;
     }
 
-    public void gameEnd(Pane gmEnd) {
-        Rectangle bg = new Rectangle(1280, 720);
-        bg.setStroke(Color.DARKCYAN);
-        bg.setFill(Color.ANTIQUEWHITE);
-        Font font = Font.font(72);
 
-        AnchorPane nmenu = new AnchorPane();
-        nmenu.setPrefSize(1280, 100);
-
-        if (whoWin.equals("RED")) {
-            //Congrats Player 1
-            System.out.println("Red won");
-            Label label = new Label("Red Player Won!");
-            label.setFont(font);
-            label.setTextFill(Color.RED);
-            label.setLayoutX(310);
-            label.setLayoutY(10);
-            nmenu.getChildren().add(label);
-        } else if (whoWin.equals("BLUE")) {
-            //Congrats Player2
-            System.out.println("Blue won");
-            Label label = new Label("Blue Player Won!");
-            label.setFont(font);
-            label.setTextFill(Color.BLUE);
-            label.setLayoutX(310);
-            label.setLayoutY(10);
-            nmenu.getChildren().add(label);
-        }
-
-        StackPane asd = new StackPane();
-        asd.getChildren().add(bg);
-
-        //start button
-        Button btnNewGame = new Button("New Game");
-        btnNewGame.setFont(font);
-        btnNewGame.setOnAction(actionEvent -> {
-            new GameMain().gameStart(asd);
-            window.setScene(scene2);
-        });
-        //exit button
-        Button btnExit = new Button("Exit");
-        btnExit.setFont(font);
-        btnExit.setOnAction(actionEvent -> System.exit(0));
-
-        //display
-        VBox nbtns = new VBox(50, btnNewGame, btnExit);
-        nbtns.setAlignment(Pos.CENTER);
-
-        whoWin = "NONE";
-
-        gmEnd.getChildren().addAll(nmenu, nbtns);
-        scene4 = new Scene(gmEnd, 1280, 720);
-        window.setScene(scene4);
-    }
 }
