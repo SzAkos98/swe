@@ -19,7 +19,9 @@ public class GameMain extends Application {
 
     public static Stage window;
     public static Scene scene1, scene2;
-
+    public static final int TILE_SIZE = 72;
+    public static final int WIDTH = 10;
+    public static final int HEIGHT = 10;
 
     public static void main(String[] args) {
         launch(args);
@@ -42,6 +44,7 @@ public class GameMain extends Application {
     }
 
     protected void MainMenu(Pane menuLayout) {
+
         //background and font size fixed to 72
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
@@ -140,10 +143,4 @@ public class GameMain extends Application {
 
 
     }
-
-    public static final int TILE_SIZE = 72;
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
-
-
 }

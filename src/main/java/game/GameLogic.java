@@ -25,8 +25,9 @@ public class GameLogic {
     private Tile[][] bd = new Tile[WIDTH][HEIGHT];
     private SetColor[][] newColorBoard = new SetColor[WIDTH][HEIGHT];
 
-    protected static Scene scene3, scene4;
-    private String whoWin = "NONE";
+    public static Scene scene3, scene4;
+    public static String whoWin = "NONE";
+    public static String whoPlays = "RED";
 
     private int blueWinRow = 0;
     private int redWinRow = 0;
@@ -116,12 +117,8 @@ public class GameLogic {
         StackPane asd = new StackPane();
         asd.getChildren().add(bg);
 
-
-        System.out.println("Fut a while");
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
-                System.out.println("Fut a sor ciklus");
-
                 if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && whoWin.equals("NONE")) {
                     ++blueWinRow;
                     if (blueWinRow == 5) {
@@ -146,8 +143,6 @@ public class GameLogic {
 
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
-                System.out.println("Fut az oszlop ciklus" + blueWinColumn + redWinColumn);
-
                 if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && whoWin == "NONE") {
                     ++blueWinColumn;
                     if (blueWinColumn == 5) {
@@ -210,7 +205,7 @@ public class GameLogic {
         return piece;
     }
 
-    private void gameEnd(Pane gmEnd) {
+    public void gameEnd(Pane gmEnd) {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
         bg.setFill(Color.ANTIQUEWHITE);
