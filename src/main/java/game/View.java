@@ -139,15 +139,15 @@ public class View extends Application {
             TopTenDao gameDao = injector.getInstance(TopTenDao.class);
             TopTen topten1 = TopTen.builder()
                     .name(player1.getText())
+                    .winCount(0)
                     .build();
             gameDao.persist(topten1);
 /*
-            Injector injector2 = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
-            TopTenDao topTenDao2 = injector2.getInstance(TopTenDao.class);
             TopTen topten2 = TopTen.builder()
                     .name(player2.getText())
+                    .winCount(0)
                     .build();
-            topTenDao2.persist(topten2);*/
+            gameDao.persist(topten2);*/
         });
 
         //back to menu button
