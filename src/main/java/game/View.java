@@ -1,5 +1,7 @@
 package game;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +18,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import util.guice.PersistenceModule;
 
 public class View extends Application {
 
@@ -86,20 +89,18 @@ public class View extends Application {
 
         menuLayout.getChildren().addAll(menu, btns);
         scene1 = new Scene(menuLayout, 1280, 720);
-        StackPane asd = new StackPane();
+        AnchorPane asd = new AnchorPane();
         asd.getChildren().add(bg);
         gameStart(asd);
     }
 
-    protected void gameStart(Pane gameStart) {
+    protected void gameStart(AnchorPane gameStart) {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
         bg.setFill(Color.ANTIQUEWHITE);
 
         String nick = "Enter your nickname";
         Font font = Font.font(25);
-        AnchorPane nicks = new AnchorPane();
-        nicks.setPrefSize(1280, 720);
 
         //player 1 nickname
         TextField player1 = new TextField();
@@ -134,6 +135,19 @@ public class View extends Application {
         btnStartGame.setOnAction(actionEvent -> {
             window.setScene(GameLogic.scene3);
             logger.info("Clicked Start Game button. Game starts.");
+            Injector injector = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
+            TopTenDao gameDao = injector.getInstance(TopTenDao.class);
+            TopTen topten1 = TopTen.builder()
+                    .name(player1.getText())
+                    .build();
+            gameDao.persist(topten1);
+/*
+            Injector injector2 = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
+            TopTenDao topTenDao2 = injector2.getInstance(TopTenDao.class);
+            TopTen topten2 = TopTen.builder()
+                    .name(player2.getText())
+                    .build();
+            topTenDao2.persist(topten2);*/
         });
 
         //back to menu button
@@ -146,11 +160,11 @@ public class View extends Application {
         });
 
         VBox btns = new VBox(30, btnStartGame, btnBack);
-        btns.setAlignment(Pos.BOTTOM_CENTER);
+        btns.setLayoutX(500);
+        btns.setLayoutY(420);
 
-        nicks.getChildren().addAll(p1, p2);
 
-        gameStart.getChildren().addAll(nicks, btns);
+        gameStart.getChildren().addAll(p1, p2, btns);
         scene2 = new Scene(gameStart, 1280, 720);
         StackPane asd = new StackPane();
         asd.getChildren().add(bg);
@@ -188,7 +202,7 @@ public class View extends Application {
             nmenu.getChildren().add(label);
         }
 
-        StackPane asd = new StackPane();
+        AnchorPane asd = new AnchorPane();
         asd.getChildren().add(bg);
 
         //start button

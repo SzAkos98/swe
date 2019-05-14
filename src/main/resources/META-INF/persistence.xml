@@ -5,9 +5,9 @@
     <persistence-unit name="jpa-persistence-unit-1" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://remotemysql.com:3306/aKT8BWEWjv"/>
-            <property name="javax.persistence.jdbc.user" value="aKT8BWEWjv"/>
-            <property name="javax.persistence.jdbc.password" value="aCLLvI30ZA"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://remotemysql.com:3306/UWtiR6YytL"/>
+            <property name="javax.persistence.jdbc.user" value="UWtiR6YytL"/>
+            <property name="javax.persistence.jdbc.password" value="pm0usMUWOK"/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- ez nagyon fontos a hiberate-hez -->
         </properties>

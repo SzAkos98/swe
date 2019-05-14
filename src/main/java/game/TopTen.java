@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @Data
@@ -16,7 +13,7 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @Builder
 @Entity
-//@Table
+@Table
 public class TopTen {
 
     @Id
@@ -26,5 +23,6 @@ public class TopTen {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false)
     private int winCount;
 }
