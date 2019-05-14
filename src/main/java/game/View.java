@@ -14,14 +14,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class Wiev extends Application {
+public class View extends Application {
 
     public static Stage window;
     public static Scene scene1, scene2, scene4;
     public static final int TILE_SIZE = 72;
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
+    Logger logger = LoggerFactory.getLogger(View.class);
 
     public static void main(String[] args) {
         launch(args);
@@ -63,12 +66,18 @@ public class Wiev extends Application {
         //start button
         Button btnStart = new Button("Start");
         btnStart.setFont(font);
-        btnStart.setOnAction(actionEvent -> window.setScene(scene2));
+        btnStart.setOnAction(actionEvent -> {
+            window.setScene(scene2);
+            logger.info("Clicked Start button. Going to the Start Game scene.");
+        });
 
         //exit button
         Button btnExit = new Button("Exit");
         btnExit.setFont(font);
-        btnExit.setOnAction(actionEvent -> System.exit(0));
+        btnExit.setOnAction(actionEvent -> {
+            System.exit(0);
+            logger.info("Clicked Exit button, exiting.");
+        });
 
         //display
         VBox btns = new VBox(50, btnStart, btnExit);
@@ -122,13 +131,19 @@ public class Wiev extends Application {
         Button btnStartGame = new Button("Start Game");
         btnStartGame.setFont(Font.font(30));
         btnStartGame.setAlignment(Pos.CENTER);
-        btnStartGame.setOnAction(actionEvent -> window.setScene(GameLogic.scene3));
+        btnStartGame.setOnAction(actionEvent -> {
+            window.setScene(GameLogic.scene3);
+            logger.info("Clicked Start Game button. Game starts.");
+        });
 
         //back to menu button
         Button btnBack = new Button("Back");
         btnBack.setFont(Font.font(25));
         btnBack.setAlignment(Pos.CENTER);
-        btnBack.setOnAction(actionEvent -> window.setScene(scene1));
+        btnBack.setOnAction(actionEvent -> {
+            window.setScene(scene1);
+            logger.info("Clicked Back button. Going back to the Menu scene.");
+        });
 
         VBox btns = new VBox(30, btnStartGame, btnBack);
         btns.setAlignment(Pos.BOTTOM_CENTER);
@@ -155,7 +170,7 @@ public class Wiev extends Application {
 
         if (GameLogic.whoWin.equals("RED")) {
             //Congrats Player 1
-            System.out.println("Red won");
+            logger.info("Red won");
             Label label = new Label("Red Player Won!");
             label.setFont(font);
             label.setTextFill(Color.RED);
@@ -164,7 +179,7 @@ public class Wiev extends Application {
             nmenu.getChildren().add(label);
         } else if (GameLogic.whoWin.equals("BLUE")) {
             //Congrats Player2
-            System.out.println("Blue won");
+            logger.info("Blue won");
             Label label = new Label("Blue Player Won!");
             label.setFont(font);
             label.setTextFill(Color.BLUE);
@@ -180,7 +195,7 @@ public class Wiev extends Application {
         Button btnNewGame = new Button("New Game");
         btnNewGame.setFont(font);
         btnNewGame.setOnAction(actionEvent -> {
-            new Wiev().gameStart(asd);
+            new View().gameStart(asd);
             window.setScene(scene2);
         });
         //exit button

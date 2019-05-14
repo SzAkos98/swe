@@ -8,7 +8,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-import static game.Wiev.*;
+import static game.View.*;
 
 
 public class GameLogic {
@@ -127,7 +127,7 @@ public class GameLogic {
                     ++blueWinRow;
                     if (blueWinRow == 5) {
                         whoWin = "BLUE";
-                        new Wiev().gameEnd(asd);
+                        new View().gameEnd(asd);
                         break;
                     }
                 }
@@ -136,7 +136,7 @@ public class GameLogic {
                     ++redWinRow;
                     if (redWinRow == 5) {
                         whoWin = "RED";
-                        new Wiev().gameEnd(asd);
+                        new View().gameEnd(asd);
                         break;
                     }
                 }
@@ -151,7 +151,7 @@ public class GameLogic {
                     ++blueWinColumn;
                     if (blueWinColumn == 5) {
                         whoWin = "BLUE";
-                        new Wiev().gameEnd(asd);
+                        new View().gameEnd(asd);
                         break;
                     }
                 }
@@ -160,7 +160,7 @@ public class GameLogic {
                     ++redWinColumn;
                     if (redWinColumn == 5) {
                         whoWin = "RED";
-                        new Wiev().gameEnd(asd);
+                        new View().gameEnd(asd);
                         break;
                     }
                 }

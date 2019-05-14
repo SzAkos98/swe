@@ -1,0 +1,27 @@
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
+             version="2.1">
+    <persistence-unit name="jpa-persistence-unit-1" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <properties>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://remotemysql.com:3306/aKT8BWEWjv"/>
+            <property name="javax.persistence.jdbc.user" value="aKT8BWEWjv"/>
+            <property name="javax.persistence.jdbc.password" value="aCLLvI30ZA"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- ez nagyon fontos a hiberate-hez -->
+        </properties>
+    </persistence-unit>
+</persistence>
+        <!--- You have successfully created a new database. The details are below.
+
+        Username: aKT8BWEWjv
+
+        Database name: aKT8BWEWjv
+
+        Password: aCLLvI30ZA
+
+        Server: remotemysql.com
+
+        Port: 3306
+        -->
