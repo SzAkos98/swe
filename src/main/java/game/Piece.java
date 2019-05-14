@@ -61,9 +61,7 @@ public class Piece extends StackPane {
             ellipse.setFill(Color.TRANSPARENT);
         }
 
-
         getChildren().addAll(bg, ellipse);
-
 
         setOnMousePressed(e -> {
             mousex = e.getSceneX();
