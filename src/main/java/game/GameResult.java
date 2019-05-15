@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @Entity
 @Table
-public class TopTen {
+public class GameResult {
 
     @Id
     @GeneratedValue

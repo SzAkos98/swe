@@ -7,11 +7,18 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static game.View.*;
 
 
+/**
+ * A játék logikáért felelős osztály.
+ */
 public class GameLogic {
+
+    Logger logger = LoggerFactory.getLogger(GameLogic.class);
 
     private Group tileGroup = new Group();
     private Group pieceGroup = new Group();
@@ -28,6 +35,13 @@ public class GameLogic {
     private int blueWinColumn = 0;
     private int redWinColumn = 0;
 
+    /**
+     * A tábla kirajzolásáért felelős függvény.
+     * <p>
+     * Betölti az elkészített táblát a képernyőre.
+     *
+     * @param gm A Tábla programablakja.
+     */
     public void game(Pane gm) {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
@@ -36,6 +50,7 @@ public class GameLogic {
         Pane board = new Pane();
         board.setPrefSize(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         board.getChildren().addAll(tileGroup, pieceGroup);
+        logger.info("Building game board.");
 
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
@@ -66,6 +81,13 @@ public class GameLogic {
                 }
             }
         }
+        logger.info("Building game board. DONE");
+/*
+        Label leaderBoard = new Label("Leader Board\n" + View.gameDao .findBest(5) + "\n");
+        leaderBoard.setFont(Font.font(30));
+        leaderBoard.setAlignment(Pos.CENTER_RIGHT);/*
+        leaderBoard.setLayoutX(730);
+        leaderBoard.setLayoutY(110);*/
 
         gm.getChildren().addAll(board);
         scene3 = new Scene(gm, 1280, 720);
@@ -77,6 +99,14 @@ public class GameLogic {
         });
     }
 
+    /**
+     * A mozgatásért hitelességét ellenőrző függvény.
+     *
+     * @param piece A mozgatandó "karakter".
+     * @param newx Az elmozgatás végpontjának X koordinátája.
+     * @param newy Az elmozgatás végpontjának Y koordinátája.
+     * @return A mozgatás típusát adjauk vissza.
+     */
     private MoveResult tryMove(Piece piece, int newx, int newy) {
         if (piece.getType() == PieceType.BLUE || piece.getType() == PieceType.RED) {
 
@@ -110,10 +140,20 @@ public class GameLogic {
         return new MoveResult(MoveType.NONE);
     }
 
+    /**
+     * A valódi X és Y koordináták Tábla koordinátává alakításáért felelős függvény.
+     * @param pixel A valódi koordináta nagysága pixelben.
+     * @return Vissza adjuk a valódi koordináta Táblabeli megfelelőjét, hogy melyik négyzetnek felel meg a koordináta.
+     */
     private int toBoard(double pixel) {
         return (int) (pixel + TILE_SIZE / 2) / TILE_SIZE;
     }
 
+    /**
+     * A játék állás ellenőrzésért felelős függvény.
+     *
+     * Megállapítja, hogy nyert-e az egyik játékos és ha igan akkor, hogy melyik az.
+     */
     private void WW() {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
@@ -170,6 +210,13 @@ public class GameLogic {
         }
     }
 
+    /**
+     * A "karakter" létrehotásáért felelős függvény. Ebben a függvényben kezeljük le továbbá a mozgást is.
+     * @param type A létrehozandó/mozgatandó "karakter" típusa.
+     * @param x A létrehozandó/mozgatandó "karakter" X koordinátája a táblán.
+     * @param y A létrehozandó/mozgatandó "karakter" Y koordinátája a táblán.
+     * @return Vissza adjuk a "karaktert".
+     */
     private Piece makePiece(PieceType type, int x, int y) {
         Piece piece = new Piece(type, x, y);
 
@@ -187,10 +234,12 @@ public class GameLogic {
 
                 switch (result.getType()) {
                     case NONE:
+                        logger.warn("Invalid step!");
                         piece.abortMove();
                         break;
                     case NORMAL:
                         if (!bd[newx][newy].hasPiece()) {
+                            logger.info("Step Succeed.");
                             Piece ghost;
                             piece.move(newx, newy);
                             Tile tile = new Tile((x0 + y0) % 2 == 0, x0, y0);

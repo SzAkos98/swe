@@ -24,6 +24,14 @@ public class Piece extends StackPane {
         return oldy;
     }
 
+    /**
+     * A "katakterek" vizuális generálásáért felelős függvény.
+     *
+     * @param type A "karakter" típuse.
+     * @param x    A "karakter" X koordinátája a táblán.
+     * @param y    A "karakter" Y koordinátája a táblán
+     */
+
     public Piece(PieceType type, int x, int y) {
         this.type = type;
 
@@ -74,12 +82,20 @@ public class Piece extends StackPane {
         }
     }
 
+    /**
+     * A "karakter" vizuális áthelyezését végző függvény.
+     * @param x A "karakter" új X koordinátája.
+     * @param y A "karakter" új Y koordinátája.
+     */
     public void move(int x, int y) {
         oldx = x * TILE_SIZE;
         oldy = y * TILE_SIZE;
         relocate(oldx, oldy);
     }
 
+    /**
+     * A sikertelen mozgatást vizuálisan reprezentáló függvény.
+     */
     public void abortMove() {
         relocate(oldx, oldy);
     }
