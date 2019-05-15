@@ -202,19 +202,19 @@ public class View extends Application {
             if (!result.contains("name=" + input1) && result.contains(input2)) {
                 gameDao.persist(topten1);
                 logger.info("New player name. Added to the database.");
-                window.setScene(GameLogic.scene3);
                 new GameLogic().game(asd);
+                window.setScene(GameLogic.scene3);
             } else if (!result.contains("name=" + input2) && result.contains(input1)) {
                 gameDao.persist(topten2);
                 logger.info("New player name. Added to the database.");
-                window.setScene(GameLogic.scene3);
                 new GameLogic().game(asd);
+                window.setScene(GameLogic.scene3);
             } else if (!result.contains("name=" + input2) && !result.contains("name=" + input1)) {
                 gameDao.persist(topten1);
                 gameDao.persist(topten2);
                 logger.info("Both player name are new. Added to the database.");
-                window.setScene(GameLogic.scene3);
                 new GameLogic().game(asd);
+                window.setScene(GameLogic.scene3);
             } else if (result.contains("name=" + input1) && result.contains("name=" + input2)) {
                 gameDao.persist(topten3);
                 new GameLogic().game(asd);

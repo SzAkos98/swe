@@ -26,8 +26,17 @@ public class GameLogic {
     private Tile[][] bd = new Tile[WIDTH][HEIGHT];
     private SetColor[][] newColorBoard = new SetColor[WIDTH][HEIGHT];
 
+    /**
+     * {@code scene3}A játék fő játék ablakának változója.
+     */
     public static Scene scene3;
+    /**
+     * {@code whoWin}A nyertes meghatározására használt globális változó, mejnek alap értéka "NONE".
+     */
     public static String whoWin = "NONE";
+    /**
+     * {@code whoPlays}A kör figyeléséhez használt globális változó. Az értéke meghatározza, hogy melyik játékos következik éppen.
+     */
     public static String whoPlays = "RED";
 
     private int blueWinRow = 0;
@@ -37,7 +46,7 @@ public class GameLogic {
 
     /**
      * A tábla kirajzolásáért felelős függvény.
-     * <p>
+     *
      * Betölti az elkészített táblát a képernyőre.
      *
      * @param gm A Tábla programablakja.
@@ -90,7 +99,7 @@ public class GameLogic {
         leaderBoard.setLayoutY(110);*/
 
         gm.getChildren().addAll(board);
-        scene3 = new Scene(gm, 1280, 720);
+        scene3 = new Scene(gm, 720, 720);
         StackPane asd = new StackPane();
         asd.getChildren().add(bg);
 

@@ -4,7 +4,7 @@ package game;
  * A program ál Main osztálya.
  *
  * Ez az osztály indul indításkor, és hívja a {@link View} osztály
- * {@code Main(String[] args)} függvényét.
+ * {@code main(String[] args)} függvényét.
  */
 public class Main {
     /**

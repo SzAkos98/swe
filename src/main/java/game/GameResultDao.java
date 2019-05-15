@@ -5,12 +5,22 @@ import util.jpa.GenericJpaDao;
 
 import java.util.List;
 
-public class GameResultDao extends GenericJpaDao<GameResult> {
+/**
+ * DAO osztály a {@link GameResult}-hoz.
+ */
 
+public class GameResultDao extends GenericJpaDao<GameResult> {
 
     public GameResultDao() {
         super(GameResult.class);
     }
+
+    /**
+     * Vissza ad egy {@code n} darabból álló listát, a legnagyobb {@code winCount} alapján.
+     *
+     * @param n A lista maximális hossza.
+     * @return A legjobbak listája.
+     */
 
     @Transactional
     public List<GameResult> findBest(int n) {
@@ -18,6 +28,12 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
                 .setMaxResults(n)
                 .getResultList();
     }
+
+    /**
+     * Vissza ad egy listát az adatbázisban megtalálható összes regisztrált felhasználórol.
+     *
+     * @return A játékosok listája.
+     */
 
     @Transactional
     public List<GameResult> getPlayerList() {
