@@ -38,8 +38,8 @@ public class View extends Application {
     public static final int HEIGHT = 10;
     public static List<GameResult> playerList;
     Logger logger = LoggerFactory.getLogger(View.class);
-    public static Injector injector = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
-    public static GameResultDao gameDao = injector.getInstance(GameResultDao.class);
+    Injector injector = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
+    GameResultDao gameDao = injector.getInstance(GameResultDao.class);
 
     /**
      * A {@link Main} osztály hívja meg, ez a program valódi {@code main} függvénye.
@@ -55,7 +55,6 @@ public class View extends Application {
     private static String input2 = null;
     GameResult topten1;
     GameResult topten2;
-    GameResult topten3;
 
     /**
      *  A játékprogram indulását kezelő függvény.
@@ -187,12 +186,11 @@ public class View extends Application {
 
             playerList = gameDao.getPlayerList();
             topten1 = GameResult.builder()
-                    .name(player1.getText())
+                    .name(player1.getText()).winCount(0)
                     .build();
             topten2 = GameResult.builder()
-                    .name(player2.getText())
+                    .name(player2.getText()).winCount(0)
                     .build();
-            topten3 = GameResult.builder().winCount(+1).build();
             String result = playerList.stream()
                     .map(n -> String.valueOf(n))
                     .collect(Collectors.joining(" ", "{", "}"));
@@ -216,7 +214,6 @@ public class View extends Application {
                 new GameLogic().game(asd);
                 window.setScene(GameLogic.scene3);
             } else if (result.contains("name=" + input1) && result.contains("name=" + input2)) {
-                gameDao.persist(topten3);
                 new GameLogic().game(asd);
                 window.setScene(GameLogic.scene3);
                 logger.info("Both nicknames are already in the database.");
