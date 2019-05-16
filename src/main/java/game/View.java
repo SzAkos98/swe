@@ -118,8 +118,8 @@ public class View extends Application {
         Button btnExit = new Button("Exit");
         btnExit.setFont(font);
         btnExit.setOnAction(actionEvent -> {
-            System.exit(0);
             logger.info("Clicked Exit button. Exiting program.");
+            System.exit(0);
         });
 
         //display
@@ -187,10 +187,10 @@ public class View extends Application {
 
             playerList = gameDao.getPlayerList();
             topten1 = GameResult.builder()
-                    .name(player1.getText()).winCount(1)
+                    .name(player1.getText())
                     .build();
             topten2 = GameResult.builder()
-                    .name(player2.getText()).winCount(1)
+                    .name(player2.getText())
                     .build();
             topten3 = GameResult.builder().winCount(+1).build();
             String result = playerList.stream()
