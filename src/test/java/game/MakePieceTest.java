@@ -6,8 +6,11 @@ import static game.MakePiece.makePiece;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
-class MakePieceTest {
+public class MakePieceTest {
 
+    /**
+     * Tábla koordináta meghatározó függvény teszt.
+     */
     @Test
     void testToBoard() {
         assertEquals(6, game.MakePiece.toBoard(420));
@@ -21,6 +24,9 @@ class MakePieceTest {
 
     }
 
+    /**
+     * "Karakter" létrehozó függvény teszt.
+     */
     @Test
     void testMakePiece() {
         Piece piece = makePiece(PieceType.RED, 1, 1);
