@@ -268,6 +268,15 @@ public class View extends Application {
             label.setLayoutX(310);
             label.setLayoutY(10);
             nmenu.getChildren().add(label);
+            MakePiece.whowinBoard = new String[10][10];
+            System.out.println(GameResultDao.findBest(5));
+            MakePiece.bd = new Tile[WIDTH][HEIGHT];
+
+            int i = gameDao.getWinNum(input1);
+            i++;
+            //String update = " UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + input1;
+            gameDao.setNewWinNum(i, input1);
+
         } else if (GameLogic.whoWin.equals("BLUE")) {
             //Congrats Player2
             logger.info("Blue won");
@@ -277,6 +286,14 @@ public class View extends Application {
             label.setLayoutX(310);
             label.setLayoutY(10);
             nmenu.getChildren().add(label);
+            MakePiece.whowinBoard = new String[10][10];
+            System.out.println(GameResultDao.findBest(5));
+            MakePiece.bd = new Tile[WIDTH][HEIGHT];
+
+            int i = gameDao.getWinNum(input2);
+            i++;
+            //String update = " UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + input1;
+            gameDao.setNewWinNum(i, input2);
         }
 
         AnchorPane asd = new AnchorPane();

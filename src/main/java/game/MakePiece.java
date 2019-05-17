@@ -1,9 +1,6 @@
 package game;
 
 import javafx.scene.Group;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,10 +22,11 @@ public class MakePiece {
      */
     public static String whoPlays = "RED";
 
-    private static int blueWinRow = 0;
-    private static int redWinRow = 0;
-    private static int blueWinColumn = 0;
-    private static int redWinColumn = 0;
+    public static String[][] whowinBoard= new String[10][10];
+
+    private static int blueWin= 0;
+    private static int redWin = 0;
+    //private static String winner = null;
 
     /**
      * A mozgatásért hitelességét ellenőrző függvény.
@@ -86,7 +84,35 @@ public class MakePiece {
      * <p>
      * Megállapítja, hogy nyert-e az egyik játékos és ha igan akkor, hogy melyik az.
      */
+
+
+
     public static void WW() {
+
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && !GameLogic.whoWin.equals("RED") && !GameLogic.whoWin.equals("BLUE")) {
+                    whowinBoard[x][y] = "B";
+/*                    if () {
+                        GameLogic.whoWin = "BLUE";
+                        new View().gameEnd(asd);
+                        break;
+                    }*/
+                }
+
+                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR && !GameLogic.whoWin.equals("RED") && !GameLogic.whoWin.equals("BLUE")) {
+                    whowinBoard[x][y] = "R";
+                   /* if (redWinRow == 5) {
+                        GameLogic.whoWin = "RED";
+                        new View().gameEnd(asd);
+                        break;
+                    }*/
+                }
+            }
+
+        }
+    }
+    /*public static void WW() {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
         bg.setFill(Color.ANTIQUEWHITE);
@@ -140,6 +166,53 @@ public class MakePiece {
             redWinColumn = 0;
             blueWinColumn = 0;
         }
+    }*/
+
+
+
+
+
+    public static String Winner(String whowin[][]) {
+
+        String winner = "NONE";
+        
+        for (int y = 0; y < HEIGHT; y++) {
+            for (int x = 0; x < WIDTH; x++) {
+                if (whowin[x][y] == "R"){
+                    ++redWin;
+                    if (redWin == 5) {
+                        winner = "RED";
+                    }
+                } else if (whowin[x][y] == "B"){
+                    ++blueWin;
+                    if (blueWin == 5) {
+                        winner = "BLUE";
+                    }
+                }
+            }
+            redWin = 0;
+            blueWin = 0;
+        }
+
+
+        for (int x = 0; x < HEIGHT; x++) {
+            for (int y = 0; y < WIDTH; y++) {
+                if (whowin[x][y] == "R"){
+                    ++redWin;
+                    if (redWin == 5) {
+                        winner = "RED";
+                    }
+                } else if (whowin[x][y] == "B"){
+                    ++blueWin;
+                    if (blueWin == 5) {
+                        winner = "BLUE";
+                    }
+                }
+            }
+            redWin = 0;
+            blueWin = 0;
+        }
+        return winner;
     }
 
 

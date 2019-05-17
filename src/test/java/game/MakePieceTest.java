@@ -1,5 +1,6 @@
 package game;
 
+import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
 import static game.MakePiece.makePiece;
@@ -37,4 +38,67 @@ public class MakePieceTest {
         assertNotEquals(PieceType.GHOSTR, piece.getType());
     }
 
+    @Test
+    void testWinner() {
+        String[][] s;
+        s = new String[][]{
+                {"R", "", "R", "x", "R", "x", "x", "R", "R", "x"},
+                {"x", "x", "x", "R", "x", "R", "x", "R", "R", "x"},
+                {"x", "x", "B", "R", "x", "R", "B", "x", "x", "x"},
+                {"x", "B", "x", "R", "x", "x", "B", "B", "R", "x"},
+                {"x", "B", "x", "R", "x", "x", "x", "x", "R", "x"},
+                {"x", "B", "x", "R", "x", "x", "x", "x", "x", "x"},
+                {"x", "B", "B", "R", "x", "x", "x", "x", "x", "x"},
+                {"x", "x", "x", "B", "x", "R", "R", "R", "x", "x"},
+                {"x", "x", "B", "R", "x", "x", "x", "x", "x", "x"},
+                {"x", "x", "B", "B", "R", "x", "R", "R", "R", "R"}};
+
+        Assert.assertEquals("RED", game.MakePiece.Winner(s));
+        Assert.assertNotEquals("BLUE", game.MakePiece.Winner(s));
+
+        s = new String[][]{
+                {"R", null, "R", null, null, null, null, "R", "R", null},
+                {null, null, null, "R", null, "R", null, "R", "R", null},
+                {null, null, "B", "R", null, "R", "B", null, null, null},
+                {null, "B", null, "R", null, null, "B", "B", "R", null},
+                {null, "B", null, "R", null, null, null, null, "R", null},
+                {null, "B", null, "R", null, null, null, null, null, null},
+                {null, "B", "B", "R", null, null, null, null, null, null},
+                {null, null, null, "B", null, "R", "R", "R", null, null},
+                {null, null, "B", "R", null, null, null, null, null, null},
+                {null, null, "B", "B", "R", null, "R", "R", "R", "R"}};
+
+        Assert.assertEquals("RED", game.MakePiece.Winner(s));
+        Assert.assertNotEquals("BLUE", game.MakePiece.Winner(s));
+
+        s = new String[][]{
+                {"R", null, "R", null, null, null, null, "R", "R", null},
+                {null, null, null, null, null, "R", null, "R", "R", null},
+                {null, "B", "B", null, null, "R", "B", null, "B", "B"},
+                {null, "B", null, "R", null, null, "B", "B", "R", null},
+                {null, "B", null, "R", null, null, null, null, "R", null},
+                {null, "B", null, "R", null, null, null, null, null, null},
+                {null, "B", "B", "R", null, null, null, null, null, null},
+                {null, null, null, "B", null, "R", "R", "R", null, null},
+                {null, null, "B", null, null, null, null, null, null, null},
+                {null, null, "B", "B", null, null, "R", "R", "R", "R"}};
+
+        Assert.assertEquals("BLUE", game.MakePiece.Winner(s));
+        Assert.assertNotEquals("RED", game.MakePiece.Winner(s));
+
+        s = new String[][]{
+                {"R", null, "R", null, null, null, null, "R", null, null},
+                {null, null, null, null, null, "R", null, "R", "R", null},
+                {null, "B", null, null, null, "R", "B", null, "B", "B"},
+                {null, "B", null, "R", null, null, "B", "B", "R", null},
+                {null, "B", null, "R", null, null, null, null, "R", null},
+                {null, "B", null, "R", null, null, null, null, null, null},
+                {null, "B", "B", "R", null, null, null, null, null, null},
+                {null, null, null, "B", null, "R", "R", "R", null, null},
+                {null, null, "B", null, null, null, null, null, null, null},
+                {null, null, "B", "B", null, null, "R", "R", "R", "R"}};
+
+        Assert.assertEquals("BLUE", game.MakePiece.Winner(s));
+        Assert.assertNotEquals("RED", game.MakePiece.Winner(s));
+    }
 }

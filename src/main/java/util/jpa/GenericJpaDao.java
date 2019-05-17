@@ -17,7 +17,7 @@ import java.util.Optional;
 public abstract class GenericJpaDao<T> {
 
     protected Class<T> entityClass;
-    protected EntityManager entityManager;
+    protected static EntityManager entityManager;
 
     /**
      * Constructs a {@code GenericJpaDao} object.

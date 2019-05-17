@@ -90,6 +90,8 @@ public class GameLogic {
 
         scene3.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             MakePiece.WW();
+            whoWin = MakePiece.Winner(MakePiece.whowinBoard);
+            if (whoWin.equals("RED") || whoWin.equals("BLUE")) new View().gameEnd(asd);
         });
     }
 

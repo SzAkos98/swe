@@ -3,6 +3,7 @@ package game;
 import com.google.inject.persist.Transactional;
 import util.jpa.GenericJpaDao;
 
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -23,8 +24,8 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
      */
 
     @Transactional
-    public List<GameResult> findBest(int n) {
-        return entityManager.createQuery("SELECT r FROM GameResult r ORDER BY r.winCount ASC", GameResult.class)
+    public static List<GameResult> findBest(int n) {
+        return entityManager.createQuery("SELECT r FROM GameResult r ORDER BY winCount DESC", GameResult.class)
                 .setMaxResults(n)
                 .getResultList();
     }
@@ -40,7 +41,7 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
         return entityManager.createQuery("SELECT r FROM GameResult r", GameResult.class)
                 .getResultList();
     }
-/*
+
     @Transactional
     public int getWinNum(String s) {
         return entityManager.createQuery("SELECT winCount FROM GameResult WHERE name = "+ s, GameResult.class).getMaxResults();
@@ -50,10 +51,10 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
     public Query setNewWinNum(int i, String s) {
        return entityManager.createQuery(" UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + s );
     }
-
+/*
     int i = gameDao.getWinNum(input1);
     i++;
     //String update = " UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + input1;
-            gameDao.setNewWinNum(i, input1);
-            */
+            gameDao.setNewWinNum(i, input1);*/
+
 }
