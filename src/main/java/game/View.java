@@ -4,6 +4,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import javafx.application.Application;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -31,15 +32,15 @@ import java.util.stream.Collectors;
 
 public class View extends Application {
 
-    public static Stage window;
-    public static Scene scene1, scene2, scene4;
-    public static final int TILE_SIZE = 72;
-    public static final int WIDTH = 10;
-    public static final int HEIGHT = 10;
-    public static List<GameResult> playerList;
-    Logger logger = LoggerFactory.getLogger(View.class);
-    Injector injector = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
-    GameResultDao gameDao = injector.getInstance(GameResultDao.class);
+    private static Stage window;
+    private static Scene scene1, scene2, scene4;
+    static final int TILE_SIZE = 72;
+    static final int WIDTH = 10;
+    static final int HEIGHT = 10;
+    private static List<GameResult> playerList;
+    private Logger logger = LoggerFactory.getLogger(View.class);
+    private Injector injector = Guice.createInjector(new PersistenceModule("jpa-persistence-unit-1"));
+    private GameResultDao gameDao = injector.getInstance(GameResultDao.class);
 
     /**
      * A {@link Main} osztály hívja meg, ez a program valódi {@code main} függvénye.
@@ -53,8 +54,8 @@ public class View extends Application {
 
     private static String input1 = null;
     private static String input2 = null;
-    GameResult topten1;
-    GameResult topten2;
+    private GameResult topten1;
+    private GameResult topten2;
 
     /**
      *  A játékprogram indulását kezelő függvény.
@@ -88,7 +89,7 @@ public class View extends Application {
      * @param menuLayout A főmenü progremablakja.
      */
 
-    protected void MainMenu(Pane menuLayout) {
+    private void MainMenu(Pane menuLayout) {
 
         //background and font size fixed to 72
         Rectangle bg = new Rectangle(1280, 720);
@@ -141,7 +142,7 @@ public class View extends Application {
      * @param gameStart A Start Menü programablakja.
      */
 
-    protected void GameStart(AnchorPane gameStart) {
+    private void GameStart(AnchorPane gameStart) {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
         bg.setFill(Color.ANTIQUEWHITE);
@@ -250,7 +251,7 @@ public class View extends Application {
      * @param gmEnd Játék Eredmény programablakja.
      */
 
-    public void gameEnd(Pane gmEnd) {
+    void gameEnd(Pane gmEnd) {
         Rectangle bg = new Rectangle(1280, 720);
         bg.setStroke(Color.DARKCYAN);
         bg.setFill(Color.ANTIQUEWHITE);
@@ -268,14 +269,6 @@ public class View extends Application {
             label.setLayoutX(310);
             label.setLayoutY(10);
             nmenu.getChildren().add(label);
-            MakePiece.whowinBoard = new String[10][10];
-            System.out.println(GameResultDao.findBest(5));
-            MakePiece.bd = new Tile[WIDTH][HEIGHT];
-
-            int i = gameDao.getWinNum(input1);
-            i++;
-            //String update = " UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + input1;
-            gameDao.setNewWinNum(i, input1);
 
         } else if (GameLogic.whoWin.equals("BLUE")) {
             //Congrats Player2
@@ -286,14 +279,6 @@ public class View extends Application {
             label.setLayoutX(310);
             label.setLayoutY(10);
             nmenu.getChildren().add(label);
-            MakePiece.whowinBoard = new String[10][10];
-            System.out.println(GameResultDao.findBest(5));
-            MakePiece.bd = new Tile[WIDTH][HEIGHT];
-
-            int i = gameDao.getWinNum(input2);
-            i++;
-            //String update = " UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + input1;
-            gameDao.setNewWinNum(i, input2);
         }
 
         AnchorPane asd = new AnchorPane();
@@ -304,6 +289,10 @@ public class View extends Application {
         btnNewGame.setFont(font);
         btnNewGame.setOnAction(actionEvent -> {
             logger.info("Started new game.");
+            MakePiece.tileGroup = new Group();
+            MakePiece.pieceGroup = new Group();
+            MakePiece.bd = new Tile[WIDTH][HEIGHT];
+            MakePiece.whowinBoard= new String[10][10];
             new View().GameStart(asd);
             window.setScene(scene2);
         });

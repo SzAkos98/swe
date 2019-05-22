@@ -1,5 +1,6 @@
 package game;
 
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -19,15 +20,15 @@ public class GameLogic {
     /**
      * {@code whoWin}A nyertes meghatározására használt globális változó, mejnek alap értéka "NONE".
      */
-    public static String whoWin = "NONE";
+    static String whoWin = "NONE";
 
 
-    Logger logger = LoggerFactory.getLogger(GameLogic.class);
+    private Logger logger = LoggerFactory.getLogger(GameLogic.class);
 
     /**
      * {@code scene3}A játék fő játék ablakának változója.
      */
-    public static Scene scene3;
+    static Scene scene3;
 
     /**
      * A tábla kirajzolásáért felelős függvény.
@@ -76,12 +77,6 @@ public class GameLogic {
             }
         }
         logger.info("Building game board. DONE");
-/*
-        Label leaderBoard = new Label("Leader Board\n" + View.gameDao .findBest(5) + "\n");
-        leaderBoard.setFont(Font.font(30));
-        leaderBoard.setAlignment(Pos.CENTER_RIGHT);/*
-        leaderBoard.setLayoutX(730);
-        leaderBoard.setLayoutY(110);*/
 
         gm.getChildren().addAll(board);
         scene3 = new Scene(gm, 720, 720);

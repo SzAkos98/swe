@@ -42,16 +42,16 @@ public class GameResultDao extends GenericJpaDao<GameResult> {
                 .getResultList();
     }
 
-    @Transactional
+   /* @Transactional
     public int getWinNum(String s) {
-        return entityManager.createQuery("SELECT winCount FROM GameResult WHERE name = "+ s, GameResult.class).getMaxResults();
+        return entityManager.createQuery("SELECT winCount FROM GameResult WHERE name = "+ s, GameResult.class).getFirstResult();
     }
 
     @Transactional
     public Query setNewWinNum(int i, String s) {
        return entityManager.createQuery(" UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + s );
     }
-/*
+
     int i = gameDao.getWinNum(input1);
     i++;
     //String update = " UPDATE GameResult SET winCount = " + i + " WHERE GameResult.name = " + input1;

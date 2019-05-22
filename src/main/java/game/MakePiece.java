@@ -6,27 +6,26 @@ import org.slf4j.LoggerFactory;
 
 import static game.View.*;
 
-public class MakePiece {
+class MakePiece {
 
     static Logger logger = LoggerFactory.getLogger(MakePiece.class);
 
 
-    public static Group tileGroup = new Group();
-    public static Group pieceGroup = new Group();
+    static Group tileGroup = new Group();
+    static Group pieceGroup = new Group();
 
-    public static Tile[][] bd = new Tile[WIDTH][HEIGHT];
-    public static SetColor[][] newColorBoard = new SetColor[WIDTH][HEIGHT];
+    static Tile[][] bd = new Tile[WIDTH][HEIGHT];
+    private static SetColor[][] newColorBoard = new SetColor[WIDTH][HEIGHT];
 
     /**
      * {@code whoPlays}A kör figyeléséhez használt globális változó. Az értéke meghatározza, hogy melyik játékos következik éppen.
      */
-    public static String whoPlays = "RED";
+    private static String whoPlays = "RED";
 
-    public static String[][] whowinBoard= new String[10][10];
+    static String[][] whowinBoard= new String[10][10];
 
     private static int blueWin= 0;
     private static int redWin = 0;
-    //private static String winner = null;
 
     /**
      * A mozgatásért hitelességét ellenőrző függvény.
@@ -36,7 +35,7 @@ public class MakePiece {
      * @param newy  Az elmozgatás végpontjának Y koordinátája.
      * @return A mozgatás típusát adjauk vissza.
      */
-    public static MoveResult tryMove(Piece piece, int newx, int newy) {
+    private static MoveResult tryMove(Piece piece, int newx, int newy) {
         if (piece.getType() == PieceType.BLUE || piece.getType() == PieceType.RED) {
 
             int x0 = toBoard(piece.getOldx());
@@ -75,7 +74,7 @@ public class MakePiece {
      * @param pixel A valódi koordináta nagysága pixelben.
      * @return Vissza adjuk a valódi koordináta Táblabeli megfelelőjét, hogy melyik négyzetnek felel meg a koordináta.
      */
-    public static int toBoard(double pixel) {
+    static int toBoard(double pixel) {
         return (int) (pixel + TILE_SIZE / 2) / TILE_SIZE;
     }
 
@@ -93,84 +92,15 @@ public class MakePiece {
             for (int x = 0; x < WIDTH; x++) {
                 if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && !GameLogic.whoWin.equals("RED") && !GameLogic.whoWin.equals("BLUE")) {
                     whowinBoard[x][y] = "B";
-/*                    if () {
-                        GameLogic.whoWin = "BLUE";
-                        new View().gameEnd(asd);
-                        break;
-                    }*/
                 }
 
                 if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR && !GameLogic.whoWin.equals("RED") && !GameLogic.whoWin.equals("BLUE")) {
                     whowinBoard[x][y] = "R";
-                   /* if (redWinRow == 5) {
-                        GameLogic.whoWin = "RED";
-                        new View().gameEnd(asd);
-                        break;
-                    }*/
                 }
             }
 
         }
     }
-    /*public static void WW() {
-        Rectangle bg = new Rectangle(1280, 720);
-        bg.setStroke(Color.DARKCYAN);
-        bg.setFill(Color.ANTIQUEWHITE);
-        StackPane asd = new StackPane();
-        asd.getChildren().add(bg);
-
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
-                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && GameLogic.whoWin.equals("NONE")) {
-                    ++blueWinRow;
-                    if (blueWinRow == 5) {
-                        GameLogic.whoWin = "BLUE";
-                        new View().gameEnd(asd);
-                        break;
-                    }
-                }
-
-                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR && GameLogic.whoWin.equals("NONE")) {
-                    ++redWinRow;
-                    if (redWinRow == 5) {
-                        GameLogic.whoWin = "RED";
-                        new View().gameEnd(asd);
-                        break;
-                    }
-                }
-            }
-            redWinRow = 0;
-            blueWinRow = 0;
-        }
-
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTB && GameLogic.whoWin == "NONE") {
-                    ++blueWinColumn;
-                    if (blueWinColumn == 5) {
-                        GameLogic.whoWin = "BLUE";
-                        new View().gameEnd(asd);
-                        break;
-                    }
-                }
-
-                if (bd[x][y].hasPiece() && bd[x][y].getPiece().getType() == PieceType.GHOSTR && GameLogic.whoWin == "NONE") {
-                    ++redWinColumn;
-                    if (redWinColumn == 5) {
-                        GameLogic.whoWin = "RED";
-                        new View().gameEnd(asd);
-                        break;
-                    }
-                }
-            }
-            redWinColumn = 0;
-            blueWinColumn = 0;
-        }
-    }*/
-
-
-
-
 
     public static String Winner(String whowin[][]) {
 
